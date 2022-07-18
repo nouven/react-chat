@@ -17,7 +17,7 @@ function Room() {
       </div>
       <div className="relative / flex flex-col flex-1 / ">
         <p>nouven</p>
-        <div className="relative / flex justify-between / / font-light text-sm">
+        <div className="relative / flex justify-between / / font-light text-xs">
           <p>last message</p>
           <p>1d ago</p>
         </div>
