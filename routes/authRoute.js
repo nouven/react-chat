@@ -3,7 +3,7 @@ const authCtrl = require('../controllers/authCtrl.js')
 
 const route = express.Router();
 
-route.get('/login', authCtrl.login);
-route.get('/signup', authCtrl.signup);
+route.post('/login', authCtrl.login);
+route.post('/signup', authCtrl.signup);
 
 module.exports = route;
