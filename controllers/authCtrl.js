@@ -30,7 +30,7 @@ const authCtrl = {
       password = await bcrypt.hash(password, salt);
 
       await User({
-        username: req.body.username,
+        name: req.body.name,
         password: password,
         email: req.body.email
       }).save();

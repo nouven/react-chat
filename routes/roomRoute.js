@@ -1,12 +1,8 @@
-const Room = require('../models/Room.js');
-const User = require('../models/User.js');
-const RoomUser = require('../models/RoomUser.js');
+const express = require('express');
+const roomCtrl = require('../controllers/roomCtrl.js')
+const router = express.Router();
 
-const roomRoute = {
-  createRoom: async (req, res){
+//router.get('/',)
+router.post('/', roomCtrl.createPublicRoom)
 
-  }
-}
-module.exports = roomRoute
-
-
+module.exports = router

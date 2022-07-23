@@ -8,12 +8,11 @@ const roomSchema = mongoose.Schema({
     type: Number,
     default: 1
   },
-  members: [{
-    unSeenMsg: { type: String, default: 0 },
-    userId: { type: String, ref: "User" }
+  users: [{
+    _id: { type: String, ref: "User" }
   }],
   messages: [{
-    messageId: { type: String, ref: "Message" }
+    _id: { type: String, ref: "Message" }
   }]
 }, { timestamps: true })
 
