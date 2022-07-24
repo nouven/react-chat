@@ -1,7 +1,9 @@
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { FcGoogle } from 'react-icons/fc'
 import { FaFacebook } from 'react-icons/fa'
 import { AiFillTwitterCircle } from 'react-icons/ai'
+import auth from '../../api/auth'
 function Login() {
   const style = {
     input: `relative / block / p-2 outline-none border rounded-xl / / border-black / focus:border focus:border-cyan-500`,
@@ -9,9 +11,10 @@ function Login() {
     button: `relative / block / p-2 border rounded-xl / / border-black`,
     icon: `relative / inline-block / p-2 rounded-full / hover:bg-gray-200`
   }
-  const [isLogin, setIsLogin] = useState(false);
+  const [isLogin, setIsLogin] = useState(true);
   const [loginVar, setLoginVar] = useState({ email: '', password: '' })
   const [signupVar, setSignupVar] = useState({ name: '', email: '', password: '' })
+  const navigate = useNavigate()
   const handleInputLogin = (e, inputName) => {
     const value = e.target.value
     if (inputName === "email") {
@@ -30,6 +33,20 @@ function Login() {
       setSignupVar(prev => { return { ...prev, password: value } })
     }
   }
+  const handleLogin = async () => {
+    const res = await auth.login(loginVar.email, loginVar.password);
+    if (res.status === 200) {
+      localStorage.setItem("token", res.token)
+      navigate('/')
+    }
+  }
+  const handleSignup = async () => {
+    const res = await auth.signup(signupVar.name, signupVar.email, signupVar.password)
+    if (res.status === 200) {
+      setIsLogin(true);
+    }
+  }
+
 
   return (
     <div className="relative / flex justify-center / w-full h-full select-none">
@@ -40,7 +57,9 @@ function Login() {
             <h1 className={style.title}>Sign In</h1>
             <input className={style.input} value={loginVar.email} onChange={(e) => handleInputLogin(e, 'email')} placeholder="Email" />
             <input className={style.input} value={loginVar.password} onChange={(e) => handleInputLogin(e, 'password')} placeholder="Password" />
-            <button className={style.button}>Login</button>
+
+            <button onClick={() => handleLogin()} className={style.button}>Login</button>
+
             <h1 onClick={(e) => setIsLogin(false)} className="relative / bock / / text-sm text-center underline / cursor-pointer ">you don't have account?</h1>
             <div className="relative / flex flex-col items-center / pt-4">
               <h1>or login with </h1>
@@ -57,11 +76,10 @@ function Login() {
             <input className={style.input} value={signupVar.name} onChange={(e) => handleInputSignup(e, 'name')} placeholder="Name" />
             <input className={style.input} value={signupVar.email} onChange={(e) => handleInputSignup(e, 'email')} placeholder="Email" />
             <input className={style.input} value={signupVar.password} onChange={(e) => handleInputSignup(e, 'password')} placeholder="Password" />
-            <button className={style.button}>Sign Up</button>
+            <button onClick={() => handleSignup()} className={style.button}>Sign Up</button>
             <h1 onClick={(e) => setIsLogin(true)} className="relative / bock / / text-sm text-center underline / cursor-pointer ">you have account?</h1>
           </div>
         )}
-
 
       </div>
     </div>
