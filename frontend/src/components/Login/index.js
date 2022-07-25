@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { FcGoogle } from 'react-icons/fc'
 import { FaFacebook } from 'react-icons/fa'
 import { AiFillTwitterCircle } from 'react-icons/ai'
-import auth from '../../api/auth'
+import authReq from '../../api/authReq'
 function Login() {
   const style = {
     input: `relative / block / p-2 outline-none border rounded-xl / / border-black / focus:border focus:border-cyan-500`,
@@ -34,14 +34,14 @@ function Login() {
     }
   }
   const handleLogin = async () => {
-    const res = await auth.login(loginVar.email, loginVar.password);
+    const res = await authReq.login(loginVar.email, loginVar.password);
     if (res.status === 200) {
-      localStorage.setItem("token", res.token)
+      localStorage.setItem("token", `Bearer ${res.token}`)
       navigate('/')
     }
   }
   const handleSignup = async () => {
-    const res = await auth.signup(signupVar.name, signupVar.email, signupVar.password)
+    const res = await authReq.signup(signupVar.name, signupVar.email, signupVar.password)
     if (res.status === 200) {
       setIsLogin(true);
     }

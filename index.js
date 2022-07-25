@@ -7,6 +7,7 @@ require('dotenv').config()
 const routes = require('./routes')
 const server = http.createServer(app);
 const { Server } = require("socket.io");
+const socketio = require('./socketio')
 const io = new Server(server, {
   cors: {
     origin: 'http://localhost:3000',
@@ -23,11 +24,9 @@ mongoose.connect(process.env.MONGODB_URL)
     server.listen(process.env.PORT, () => {
       console.log(`app is runing on port ${process.env.PORT}`)
     })
+    socketio(io)
   })
   .catch((err) => {
     console.log(err);
   })
 
-io.on("connection", (socket) => {
-  console.log(`socket id: ${socket.id}`)
-})

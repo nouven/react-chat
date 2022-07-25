@@ -28,5 +28,25 @@ const roomCtrl = {
       return res.status(500).json(err);
     }
   },
+  getAllRoom: async (req, res) => {
+    try {
+      const userId = req.query.userId
+      let rooms = await RoomUser.find({ userId: userId })
+        .populate({
+          path: 'roomId',
+          select: ['name', '_id', 'type'],
+          populate: {
+            path: 'users._id',
+            select: ['name', 'avatar']
+          }
+        }).sort({ updatedAt: -1 }).exec()
+      rooms = rooms.map(room => {
+        return { room: room.roomId, updatedAt: room.updatedAt }
+      })
+      return res.status(200).json(rooms)
+    } catch (err) {
+      return res.status(500).json(err)
+    }
+  }
 }
 module.exports = roomCtrl

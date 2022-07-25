@@ -1,6 +1,6 @@
 const axios = require('axios')
 axios.defaults.baseURL = 'http://localhost:5000/'
-const auth = {
+const authReq = {
   login: async (email, password) => {
     try {
       const res = await axios({
@@ -11,7 +11,7 @@ const auth = {
           password,
         }
       })
-      return { status: res.status, token: res.data }
+      return { status: res.status, token: res.data.token }
     } catch (err) {
       return err
     }
@@ -33,5 +33,5 @@ const auth = {
     }
   },
 }
-export default auth
+export default authReq
 
