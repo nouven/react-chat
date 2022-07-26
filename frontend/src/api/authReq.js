@@ -11,7 +11,7 @@ const authReq = {
           password,
         }
       })
-      return { status: res.status, token: res.data.token }
+      return { user: res.data.user, status: res.status, token: res.data.token }
     } catch (err) {
       return err
     }

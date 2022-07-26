@@ -7,7 +7,7 @@ import Search from './Search'
 function Left() {
   const { rooms, setRooms, info } = useContext(chatContext)
   useEffect(() => {
-    roomReq.getAllRoom('62dbf957b5dcf18819ce4c60')
+    roomReq.getAllRoom(info._id)
       .then(data => {
         setRooms(data)
       })
@@ -18,12 +18,20 @@ function Left() {
       <Search />
       <div className="/ flex flex-col flex-1 gap-1 / overflow-y-auto / / / ">
         {rooms.map(room => {
+          let avatar1 = room.room.users[0]._id.avatar
+          let avatar2 = room.room.users[1]._id.avatar
+          let name = room.room.name
+          let lastMsg = room.room.lastMsg || 'default'
+          let _id = room.room._id
+          let members = room.room.users
+          members = members.map(member => { return member._id._id })
           return <Room key={room.room._id}
-            avatar1={room.room.users[0]._id.avatar}
-            avatar2={room.room.users[1]._id.avatar}
-            name={room.room.name}
-            lastMsg={room.room.lastMsg || 'default'}
-            _id={room.room._ic}
+            avatar1={avatar1}
+            avatar2={avatar2}
+            name={name}
+            lastMsg={lastMsg}
+            _id={_id}
+            members={members}
           />
         })}
       </div>

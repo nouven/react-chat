@@ -1,15 +1,30 @@
-let arr = [];
+let onlUsers = [];
 const socketio = (io) => {
   io.on("connection", (socket) => {
-    console.log(`-----------connected: ${socket.id}`)
 
-    socket.on('init', user => {
-      console.log(`user id: ${user._id}`)
+    socket.on('init', ({ userId }) => {
+      let socketId = socket.id
+      onlUsers.push({ socketId, userId })
+      console.table(`push - ${onlUsers.length}`)
+    })
+
+    socket.on('joinRoom', ({ curRoom, preRoom }) => {
+      if (preRoom) {
+        socket.leave(preRoom)
+      }
+      socket.join(curRoom)
+    })
+
+    socket.on('chat', ({ roomId, userId, content }) => {
+      socket.emit('chat', content)
     })
 
 
     socket.on('disconnect', () => {
-      console.log(`disconnect: ${socket.id}`)
+      onlUsers = onlUsers.filter((onlUser) => {
+        return onlUser.socketId !== socket.id
+      })
+      console.log(`remove - ${onlUsers.length}`)
     })
   })
 }

@@ -1,4 +1,4 @@
-import { useEffect, useContext } from 'react'
+import { useEffect, useLayoutEffect, useContext } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { chatContext } from '../../context/chatContext'
 import io from 'socket.io-client'
@@ -6,20 +6,20 @@ import userReq from '../../api/userReq'
 import Left from './Left'
 import Right from './Right'
 function Chat() {
-  const { socket, setSocket, info, setInfo } = useContext(chatContext)
+  let { socket, info, setInfo } = useContext(chatContext)
   const navigate = useNavigate();
 
 
-  useEffect(() => {
-    const token = localStorage.getItem('token');
-    if (!token) {
-      navigate('/login')
-    }
-  }, [])
+
 
   useEffect(() => {
-    socket.emit('init', info);
-  }, [socket])
+    console.log(info._id)
+    let userId = info._id
+    socket.emit('init', { userId })
+    return (() => {
+      socket.current.off()
+    })
+  }, [])
 
 
   return (

@@ -1,22 +1,23 @@
-import { createContext, useEffect, useLayoutEffect, useState } from 'react'
+import { createContext, useEffect, useState } from 'react'
+import { useLocation, useNavigate } from 'react-router-dom'
 import io from 'socket.io-client'
-import userReq from '../api/userReq'
 const chatContext = createContext()
 function ChatProvider({ children }) {
 
-
-  const [socket, setSocket] = useState(io('http://localhost:5000'))
+  const local = useLocation();
   const [rooms, setRooms] = useState([])
   const [messages, setMessages] = useState([])
   const [temp, setTemp] = useState({})
-  const [info, setInfo] = useState({})
-  useLayoutEffect(() => {
-    userReq.getById().then(user => {
-      const _id = user._id.toString()
-      const name = user.name
-      const avatar = user.avatar
-      setInfo({ _id, name, avatar })
-    })
+  const [info, setInfo] = useState(local.state)
+  const [socket, setSocket] = useState(() => io('http://localhost:5000'))
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      navigate('/')
+    }
   }, [])
 
   const value = {

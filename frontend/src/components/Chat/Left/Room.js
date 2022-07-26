@@ -1,18 +1,19 @@
 import { useContext } from "react";
 import { chatContext } from "../../../context/chatContext";
 
-function Room({ _id, avatar1, avatar2, name, lastMsg }) {
+function Room({ _id, avatar1, avatar2, name, lastMsg, members }) {
   const style = {
     img: " absolute / block / w-5 h-5 rounded-full overflow-hidden / "
   }
+  const { temp, setTemp, socket } = useContext(chatContext)
   const handleClick = () => {
     setTemp(() => {
-      const preRoom = temp.curRoom || ""
-      const curRoom = _id
-      return { preRoom, curRoom, name, avatar1 }
+      const preRoom = _id
+      return { preRoom, name, avatar1 }
     })
+    socket.emit('joinRoom', { curRoom: _id, preRoom: temp.preRoom })
   }
-  const { temp, setTemp } = useContext(chatContext)
+
 
   return (
     <div onClick={handleClick} className="relative / flex items-center gap-1 / border p-[2px] rounded-xl / / / cursor-pointer">
