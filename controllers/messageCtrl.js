@@ -12,10 +12,11 @@ const messageCtrl = {
   },
   createMessage: async (req, res) => {
     try {
-      const roomId = req.body.roomId
-      const content = req.body.content
+      let roomId = req.body.roomId
+      let content = req.body.content
       const newMessage = await Message({ content: content }).save();
-      await Room.updateOne({ _id: roomId }, { $push: { messages: { MessageId: newMessage._id.toString() } } })
+      console.log(newMessage)
+      await Room.updateOne({ _id: roomId }, { $push: { messages: { _id: newMessage._id.toString() } } })
       return res.status(200);
     } catch (err) {
       return res.status(500).json(err)

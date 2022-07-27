@@ -1,6 +1,7 @@
 import { createContext, useEffect, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import io from 'socket.io-client'
+import userReq from '../api/userReq'
 const chatContext = createContext()
 function ChatProvider({ children }) {
 
@@ -8,9 +9,8 @@ function ChatProvider({ children }) {
   const [rooms, setRooms] = useState([])
   const [messages, setMessages] = useState([])
   const [temp, setTemp] = useState({})
-  const [info, setInfo] = useState(local.state)
   const [socket, setSocket] = useState(() => io('http://localhost:5000'))
-
+  const [info, setInfo] = useState(local.state)
   const navigate = useNavigate();
 
   useEffect(() => {

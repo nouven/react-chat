@@ -10,30 +10,19 @@ function Room({ value, roomState }) {
 
   useEffect(() => {
     if (value._id === roomState.roomId && roomState.roomId !== temp.preRoom) {
-      setState((prev) => {
+      setState(() => {
+        let lastMsg = roomState.content
         let unSeenMsg = state.unSeenMsg + 1
-        let lastMsg = roomState.content
-        return { ...prev, unSeenMsg, lastMsg }
+        return { lastMsg, unSeenMsg }
       })
-    }
-    if (value._id === roomState.roomId) {
-      setState((prev) => {
-        let lastMsg = roomState.content
-        return { ...prev, lastMsg }
-      })
-
     }
   }, [roomState])
-  console.log('re-render')
 
   const handleClick = () => {
     setTemp(() => {
       const preRoom = value._id
       let avatar = value.avatar1
       return { preRoom, name: value.name, avatar, members: value.members }
-    })
-    setState((prev) => {
-      return { ...prev, unSeenMsg: 0 }
     })
     socket.emit('joinRoom', { curRoom: value._id, preRoom: temp.preRoom })
   }
@@ -53,7 +42,6 @@ function Room({ value, roomState }) {
       <div className="relative / flex flex-col flex-1 / ">
         <div className="relative / flex justify-between">
           <p>{value.name}</p>
-
           {(state.unSeenMsg !== 0) ? (
             <div className="relative / flex justify-center items-center / w-4 h-4 p-[2px] rounded-full / text-xs font-bold / text-white bg-red-600">{state.unSeenMsg}</div>
           ) : ''}

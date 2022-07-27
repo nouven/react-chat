@@ -15,14 +15,15 @@ function Right() {
             let isMe = false
             let content = message.content
             let _id = message._id
-            if (message._id === info._id) {
+            if (message.senderId === info._id) {
               isMe = true
             }
-            return <Message key={_id} message={content} isMe={isMe} />
+            let value = { content, isMe }
+            return <Message
+              key={_id}
+              value={value}
+            />
           })}
-
-          <Message isMe={true} message={'this is message'} />
-          <Message isMe={false} message={'ooouvnouven'} />
         </div>
         <Typing />
       </div>

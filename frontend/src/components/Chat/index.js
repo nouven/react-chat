@@ -10,14 +10,11 @@ function Chat() {
   const navigate = useNavigate();
 
 
-
-
   useEffect(() => {
-    console.log(info._id)
     let userId = info._id
     socket.emit('init', { userId })
     return (() => {
-      socket.current.off()
+      socket.off()
     })
   }, [])
 

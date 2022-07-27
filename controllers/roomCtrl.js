@@ -41,7 +41,11 @@ const roomCtrl = {
           }
         }).sort({ updatedAt: -1 }).exec()
       rooms = rooms.map(room => {
-        return { room: room.roomId, updatedAt: room.updatedAt }
+        let roomId = room.roomId
+        let updatedAt = room.updatedAt
+        let unSeenMsg = room.unSeenMsg
+        let lastMsg = room.lastMsg
+        return { roomId, unSeenMsg, lastMsg, updatedAt }
       })
       return res.status(200).json(rooms)
     } catch (err) {

@@ -3,6 +3,8 @@ import { BiAddToQueue } from 'react-icons/bi'
 import { GoFileDirectory } from 'react-icons/go'
 import { useContext, useEffect, useState } from 'react'
 import { chatContext } from '../../../context/chatContext'
+import { nanoid } from 'nanoid'
+import { } from '../../../api/msgReq'
 function Typing() {
   const style = {
     icon: 'relative / block / p-2 rounded-full / text-xl / / hover:bg-gray-300'
@@ -10,16 +12,22 @@ function Typing() {
   let { info, temp, socket, setMessages } = useContext(chatContext)
   let [typing, setTyping] = useState('');
   useEffect(() => {
-    socket.on('chat', content => {
-      console.log(content)
+    socket.on('chat', ({ _id, roonId, senderId, content, createdAt }) => {
+      setMessages(prev => {
+        return [{ _id, senderId, content, createdAt }, ...prev]
+      })
+
     })
   }, [])
   let handleSubmit = (event) => {
     if (event.keyCode === 13) {
-      let roomId = temp.roomId
-      let userId = info._id
+      let roomId = temp.preRoom
+      let senderId = info._id
       let content = typing
-      socket.emit('chat', { roomId, userId, content })
+      let createdAt = new Date();
+      let members = temp.members
+      let _id = nanoid()
+      socket.emit('chat', { _id, roomId, senderId, content, members, createdAt })
       setTyping('')
     } else {
       return
