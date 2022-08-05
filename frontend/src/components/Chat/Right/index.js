@@ -10,15 +10,15 @@ function Right() {
       <div className="relative / flex flex-col h-full / overflow-y-auto ">
         <Header />
         <div className="relative / flex flex-1 flex-col-reverse gap-1 / overflow-y-auto pb-[2px]">
-
           {messages.map(message => {
             let isMe = false
             let content = message.content
+            let senderName = message.senderName
             let _id = message._id
             if (message.senderId === info._id) {
               isMe = true
             }
-            let value = { content, isMe }
+            let value = { content, isMe, senderName }
             return <Message
               key={_id}
               value={value}

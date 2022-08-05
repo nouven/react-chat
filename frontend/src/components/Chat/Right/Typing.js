@@ -4,7 +4,7 @@ import { GoFileDirectory } from 'react-icons/go'
 import { useContext, useEffect, useState } from 'react'
 import { chatContext } from '../../../context/chatContext'
 import { nanoid } from 'nanoid'
-import { } from '../../../api/msgReq'
+import msgReq, { } from '../../../api/msgReq'
 function Typing() {
   const style = {
     icon: 'relative / block / p-2 rounded-full / text-xl / / hover:bg-gray-300'
@@ -12,23 +12,24 @@ function Typing() {
   let { info, temp, socket, setMessages } = useContext(chatContext)
   let [typing, setTyping] = useState('');
   useEffect(() => {
-    socket.on('chat', ({ _id, roonId, senderId, content, createdAt }) => {
+    socket.on('chat', ({ _id, senderName, roomId, senderId, content, createdAt }) => {
       setMessages(prev => {
-        return [{ _id, senderId, content, createdAt }, ...prev]
+        return [{ _id, senderName, senderId, content, createdAt }, ...prev]
       })
-
     })
   }, [])
   let handleSubmit = (event) => {
     if (event.keyCode === 13) {
       let roomId = temp.preRoom
       let senderId = info._id
+      let senderName = info.name
       let content = typing
       let createdAt = new Date();
       let members = temp.members
       let _id = nanoid()
-      socket.emit('chat', { _id, roomId, senderId, content, members, createdAt })
+      socket.emit('chat', { _id, senderName, roomId, senderId, content, members, createdAt })
       setTyping('')
+      msgReq.createMsg(roomId, content, senderId, senderName)
     } else {
       return
     }

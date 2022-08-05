@@ -4,6 +4,8 @@ const router = express.Router();
 
 //router.get('/',)
 router.post('/', roomCtrl.createPublicRoom)
-router.get('/', roomCtrl.getAllRoom)
+router.get('/all', roomCtrl.getAllRoom)
+router.get('/one', roomCtrl.getOneRoom)
+router.put('/', roomCtrl.updateRoomUsers)
 
 module.exports = router

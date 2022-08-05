@@ -14,15 +14,26 @@ const socketio = (io) => {
       }
       socket.join(curRoom)
     })
+    socket.on('createRoom', ({ roomId, members }) => {
+      members.forEach(member => {
+        let onlUser = onlUsers.find(onlUser => {
+          return onlUser.userId === member
+        })
+        console.log(onlUser)
+        if (onlUser) {
+          io.to(onlUser.socketId).emit('createRoom', { roomId })
+        }
+      })
+    })
 
-    socket.on('chat', ({ _id, roomId, senderId, content, createdAt, members }) => {
-      io.to(roomId).emit('chat', { _id, senderId, roomId, content, createdAt })
+    socket.on('chat', ({ _id, senderName, roomId, senderId, content, createdAt, members }) => {
+      io.to(roomId).emit('chat', { _id, senderName, senderId, roomId, content, createdAt })
       members.forEach(member => {
         let onlUser = onlUsers.find(onlUser => {
           return onlUser.userId === member
         })
         if (onlUser) {
-          io.to(onlUser.socketId).emit('roomState', { roomId, content })
+          io.to(onlUser.socketId).emit('roomState', { roomId, senderName, content })
         }
       })
     })

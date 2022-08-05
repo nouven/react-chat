@@ -16,8 +16,40 @@ const userReq = {
     } catch (err) {
       return err
     }
+  },
+  getUsers: async (value) => {
+    try {
+      if (!value) {
+        return []
+      }
+      let token = localStorage.getItem('token')
+      let res = await axios({
+        method: 'get',
+        url: 'user/search',
+        headers: { token },
+        params: {
+          regex: value,
+        }
+      })
+      return res.data
+    } catch (err) {
+      return err
+    }
+  },
+  getUsersRoom: async (roomId) => {
+    try {
+      let token = localStorage.getItem('token')
+      let res = await axios({
+        mothod: 'get',
+        url: 'user/room',
+        headers: { token },
+        params: { roomId }
+      })
+      return res.data
+    } catch (err) {
+      return err
+    }
   }
-
 }
 export default userReq
 

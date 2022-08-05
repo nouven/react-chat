@@ -4,6 +4,9 @@ const messageSchema = mongoose.Schema({
   senderId: {
     type: String
   },
+  senderName: {
+    type: String
+  },
   content: {
     type: String,
   },

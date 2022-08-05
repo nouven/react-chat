@@ -8,7 +8,12 @@ function Header() {
   const style = {
     icon: 'relative / block / p-2 rounded-full / text-xl / / hover:bg-gray-300'
   }
-  let { temp } = useContext(chatContext)
+  let { temp, setIsModal } = useContext(chatContext)
+  let handleClick = () => {
+    setIsModal(() => {
+      return { display: true, number: 2 }
+    })
+  }
   return (
     <div className="relative / flex justify-between items-center / h-12 border ">
       <div className="relative / flex gap-1">
@@ -20,7 +25,7 @@ function Header() {
       <div className="relative / flex items-center">
         <div className={style.icon}><BsTelephoneForward /></div>
         <div className={style.icon}><AiOutlineVideoCamera /></div>
-        <div className={style.icon}><IoInformationSharp /></div>
+        <div onClick={() => handleClick()} className={style.icon}><IoInformationSharp /></div>
       </div>
     </div >
   )

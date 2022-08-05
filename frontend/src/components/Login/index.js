@@ -56,7 +56,7 @@ function Login() {
           <div className="relative / flex flex-col flex-1 gap-4 / border px-2 pb-20 rounded-xl / / border-black">
             <h1 className={style.title}>Sign In</h1>
             <input className={style.input} value={loginVar.email} onChange={(e) => handleInputLogin(e, 'email')} placeholder="Email" />
-            <input className={style.input} value={loginVar.password} onChange={(e) => handleInputLogin(e, 'password')} placeholder="Password" />
+            <input className={style.input} type="password" value={loginVar.password} onChange={(e) => handleInputLogin(e, 'password')} placeholder="Password" />
 
             <button onClick={() => handleLogin()} className={style.button}>Login</button>
 
@@ -75,7 +75,7 @@ function Login() {
             <h1 className={style.title}>Register</h1>
             <input className={style.input} value={signupVar.name} onChange={(e) => handleInputSignup(e, 'name')} placeholder="Name" />
             <input className={style.input} value={signupVar.email} onChange={(e) => handleInputSignup(e, 'email')} placeholder="Email" />
-            <input className={style.input} value={signupVar.password} onChange={(e) => handleInputSignup(e, 'password')} placeholder="Password" />
+            <input className={style.input} type="password" value={signupVar.password} onChange={(e) => handleInputSignup(e, 'password')} placeholder="Password" />
             <button onClick={() => handleSignup()} className={style.button}>Sign Up</button>
             <h1 onClick={(e) => setIsLogin(true)} className="relative / bock / / text-sm text-center underline / cursor-pointer ">you have account?</h1>
           </div>
